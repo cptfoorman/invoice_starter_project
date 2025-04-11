@@ -7,6 +7,7 @@ C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springb
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\dto\mapper\PersonMapper.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\service\PersonService.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\service\InvoiceServiceImpl.java
+C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\entity\filter\InvoiceFilter.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\controller\PersonController.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\entity\PersonEntity.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\dto\PersonDTO.java
@@ -16,3 +17,4 @@ C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springb
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\dto\mapper\InvoiceMapper.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\constant\Countries.java
 C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\controller\InvoiceController.java
+C:\Users\rihou\Downloads\invoice_starter_project\invoice_starter_project\springboot_invoice_starter_project\invoice-server-starter\src\main\java\cz\itnetwork\entity\repository\specification\InvoiceSpecification.java

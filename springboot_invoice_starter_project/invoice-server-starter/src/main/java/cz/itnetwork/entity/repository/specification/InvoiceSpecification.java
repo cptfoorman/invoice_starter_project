@@ -2,11 +2,10 @@ package cz.itnetwork.entity.repository.specification;
 
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.InvoiceEntity_;
+import cz.itnetwork.entity.PersonEntity;
+import cz.itnetwork.entity.PersonEntity_;
 import cz.itnetwork.entity.filter.InvoiceFilter;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -39,6 +38,17 @@ public class InvoiceSpecification implements Specification<InvoiceEntity> {
         }
         if (filter.getMaxPrice()!=null){
             predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(InvoiceEntity_.PRICE), filter.getMaxPrice()));
+        }
+        if (filter.getProduct()!=null){
+            predicates.add(criteriaBuilder.like(root.get(InvoiceEntity_.PRODUCT), filter.getProduct()));
+        }
+        if (filter.getBuyerId()!=null){
+            Join<PersonEntity, InvoiceEntity> personJoin = root.join(InvoiceEntity_.BUYER);
+            predicates.add(personJoin.get(PersonEntity_.ID).in(filter.getBuyerId()));
+        }
+        if (filter.getSellerId()!=null){
+            Join<PersonEntity, InvoiceEntity> personJoin = root.join(InvoiceEntity_.SELLER);
+            predicates.add(personJoin.get(PersonEntity_.ID).in(filter.getSellerId()));
         }
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }

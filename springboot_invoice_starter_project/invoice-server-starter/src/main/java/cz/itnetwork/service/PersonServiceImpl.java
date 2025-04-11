@@ -27,6 +27,7 @@ import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -50,13 +51,15 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void removePerson(long personId) {
+    public HttpStatus removePerson(long personId) {
         try {
             PersonEntity person = fetchPersonById(personId);
             person.setHidden(true);
 
             personRepository.save(person);
+            return HttpStatus.NO_CONTENT;
         } catch (NotFoundException ignored) {
+            return HttpStatus.NOT_FOUND;
             // The contract in the interface states, that no exception is thrown, if the entity is not found.
         }
     }

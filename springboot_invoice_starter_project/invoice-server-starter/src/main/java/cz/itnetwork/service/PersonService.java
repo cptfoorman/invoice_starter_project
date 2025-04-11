@@ -1,6 +1,7 @@
 package cz.itnetwork.service;
 
 import cz.itnetwork.dto.PersonDTO;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -19,8 +20,9 @@ public interface PersonService {
      * <p>In case a person with the passed [id] isn't found, the method <b>silently fails</b></p>
      *
      * @param id Person to delete
+     * @return
      */
-    void removePerson(long id);
+    HttpStatus removePerson(long id);
 
     /**
      * Fetches all non-hidden persons
