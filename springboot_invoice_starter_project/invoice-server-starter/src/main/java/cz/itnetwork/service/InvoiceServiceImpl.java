@@ -5,6 +5,7 @@ import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -53,6 +54,17 @@ public class InvoiceServiceImpl implements InvoiceService{
         InvoiceEntity newInvoiceEntity = invoiceMapper.toEntity(invoiceDTO);
         invoiceRepository.save(newInvoiceEntity);
         return invoiceMapper.toDTO(newInvoiceEntity);
+    }
+
+    @Override
+    public InvoiceDTO editInvoice(long id, InvoiceDTO invoiceDTO) {
+        if (!invoiceRepository.existsById(id)) {
+            throw new EntityNotFoundException("Person with id " + id + " wasn't found in the database.");
+        }
+        InvoiceEntity entity = invoiceMapper.toEntity(invoiceDTO);
+        entity.setId(id);
+        InvoiceEntity saved = invoiceRepository.save(entity);
+        return invoiceMapper.toDTO(saved);
     }
 
 }

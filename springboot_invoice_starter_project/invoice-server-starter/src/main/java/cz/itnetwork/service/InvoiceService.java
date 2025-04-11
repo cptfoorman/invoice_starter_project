@@ -15,6 +15,7 @@ public interface InvoiceService {
 
     InvoiceDTO addInvoice(InvoiceDTO invoiceDTO);
 
+    InvoiceDTO editInvoice(long id, InvoiceDTO invoiceDTO);
 
 
 
