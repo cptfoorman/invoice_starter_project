@@ -3,14 +3,13 @@ package cz.itnetwork.service;
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
-import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.specification.InvoiceSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -44,12 +43,13 @@ public class InvoiceServiceImpl implements InvoiceService{
     }
 
     @Override
-    public void removeInvoice(long id) {
+    public HttpStatus removeInvoice(long id) {
         try{
             InvoiceEntity invoice = invoiceMapper.toEntity(getInvoice(id));
             invoiceRepository.delete(invoice);
+            return HttpStatus.NO_CONTENT;
         }catch(NotFoundException ignored){
-            //doplnit logiku zpetne vazby
+            return HttpStatus.NOT_FOUND;
         }
 
     }
@@ -71,5 +71,19 @@ public class InvoiceServiceImpl implements InvoiceService{
         InvoiceEntity saved = invoiceRepository.save(entity);
         return invoiceMapper.toDTO(saved);
     }
+
+    @Override
+    public List<InvoiceDTO> getBuyersByIdNum(long idNum) {
+        return List.of();
+    }
+
+    @Override
+    public List<InvoiceDTO> getSellersByIdNum(long idNum) {
+        return List.of();
+    }
+
+    //vytvorit funkci na nalezeni faktur podle idNum prodejce
+    //kroky:
+    //spojit idNum kterej dostaneme s idNum v seller objektu
 
 }

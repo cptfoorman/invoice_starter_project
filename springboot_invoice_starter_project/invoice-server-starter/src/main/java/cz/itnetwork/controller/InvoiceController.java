@@ -6,6 +6,7 @@ import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.service.InvoiceService;
 import cz.itnetwork.service.InvoiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class InvoiceController {
     }
 
     @DeleteMapping("/invoice/{id}")
-    public void deleteInvoice(@PathVariable Long id){
-        invoiceService.removeInvoice(id);
+    public HttpStatus deleteInvoice(@PathVariable Long id){
+        return invoiceService.removeInvoice(id);
     }
+
 }

@@ -42,7 +42,7 @@ public class PersonController {
         return personService.getAll();
     }
 
-    @GetMapping("/person/{id}")
+    @GetMapping("/persons/{id}")
     public PersonDTO getPerson(@PathVariable Long id){
         return personService.getPerson(id);
     }
@@ -61,8 +61,7 @@ public class PersonController {
 
     @DeleteMapping("/persons/{personId}")
     public HttpStatus deletePerson(@PathVariable Long personId) {
-        personService.removePerson(personId);
-        return HttpStatus.NO_CONTENT;
+        return personService.removePerson(personId);
     }
 
 
