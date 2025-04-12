@@ -8,5 +8,4 @@ public class InvoiceStatisticsDTO {
     private double currentYearSum;
     private double allTimeSum;
     private int invoiceCount;
-
 }

@@ -26,12 +26,11 @@ public class StatisticsServiceImpl implements StatisticsService{
     @Override
     public InvoiceStatisticsDTO getInvoiceAllTimeStatistics() {
         InvoiceFilter invoiceFilter = new InvoiceFilter();
-        List<InvoiceDTO> invoiceDTOS = invoiceService.getAllInvoices(invoiceFilter);
         InvoiceStatisticsDTO invoiceStatisticsDTO = new InvoiceStatisticsDTO();
         //init a year string for comparison for currentYearSum
         String localDateSubstring = LocalDate.now().toString().substring(0,4);
         //read values from invoiceDTO
-        for (InvoiceDTO i: invoiceDTOS){
+        for (InvoiceDTO i: invoiceService.getAllInvoices(invoiceFilter)){
             String currentInvoiceYear = i.getIssued().toString().substring(0,4);
             //add stats to the new DTO
             invoiceStatisticsDTO.setInvoiceCount(invoiceStatisticsDTO.getInvoiceCount()+1);
@@ -45,13 +44,14 @@ public class StatisticsServiceImpl implements StatisticsService{
         return invoiceStatisticsDTO;
     }
 
+
+
     @Override
     public List<PersonStatisticsDTO> getPersonsStatistics() {
         List<PersonStatisticsDTO> personStatisticsDTOS = new ArrayList<>();
         //get all non-hidden people
-        List<PersonDTO> personDTOS = personService.getAll();
         //loop over list of the people
-        for (PersonDTO i: personDTOS){
+        for (PersonDTO i: personService.getAll()){
             PersonStatisticsDTO newStatisticsDTO = new PersonStatisticsDTO();
             newStatisticsDTO.setPersonId(i.getId());
             newStatisticsDTO.setPersonName(i.getName());

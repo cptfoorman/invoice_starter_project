@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InvoiceSpecification implements Specification<InvoiceEntity> {
 
-   //specification for using filters
+   //specification for using filters for invoices
     private final InvoiceFilter filter;
 
     @Override
