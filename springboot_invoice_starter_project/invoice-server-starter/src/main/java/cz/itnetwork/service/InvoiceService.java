@@ -19,8 +19,8 @@ public interface InvoiceService {
 
     InvoiceDTO editInvoice(long id, InvoiceDTO invoiceDTO);
 
-    List<InvoiceDTO> getBuyersByIdNum(long idNum);
+    List<InvoiceDTO> getBuyersByIdNum(String identificationNumber);
 
-    List<InvoiceDTO> getSellersByIdNum(long idNum);
+    List<InvoiceDTO> getSellersByIdNum(String identificationNumber);
 
 }

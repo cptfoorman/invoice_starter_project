@@ -36,4 +36,13 @@ public class InvoiceController {
         return invoiceService.removeInvoice(id);
     }
 
+    @GetMapping("/identification/{id}/purchases")
+    public List<InvoiceDTO> getByBuyersIdentification(@PathVariable String id){
+        return invoiceService.getBuyersByIdNum(id);
+    }
+    @GetMapping("/identification/{id}/sales")
+    public List<InvoiceDTO> getByIdentification(@PathVariable String id){
+        return invoiceService.getSellersByIdNum(id);
+    }
+
 }

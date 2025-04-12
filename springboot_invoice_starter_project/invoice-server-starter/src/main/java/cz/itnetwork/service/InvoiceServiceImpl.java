@@ -3,8 +3,10 @@ package cz.itnetwork.service;
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
+import cz.itnetwork.entity.filter.InvoiceBuyerSellerFilter;
 import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.entity.repository.InvoiceRepository;
+import cz.itnetwork.entity.repository.specification.InvoiceBuyerSellerSpecification;
 import cz.itnetwork.entity.repository.specification.InvoiceSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,17 +75,21 @@ public class InvoiceServiceImpl implements InvoiceService{
     }
 
     @Override
-    public List<InvoiceDTO> getBuyersByIdNum(long idNum) {
-        return List.of();
+    public List<InvoiceDTO> getBuyersByIdNum(String identificationNumber) {
+        InvoiceBuyerSellerFilter invoiceFilter = new InvoiceBuyerSellerFilter(true, identificationNumber);
+                InvoiceBuyerSellerSpecification invoiceSpecification = new InvoiceBuyerSellerSpecification(invoiceFilter);
+        return invoiceRepository.findAll(invoiceSpecification)
+                .stream()
+                .map(i -> invoiceMapper.toDTO(i))
+                .collect(Collectors.toList());
     }
-
     @Override
-    public List<InvoiceDTO> getSellersByIdNum(long idNum) {
-        return List.of();
+    public List<InvoiceDTO> getSellersByIdNum(String identificationNumber) {
+        InvoiceBuyerSellerFilter invoiceFilter = new InvoiceBuyerSellerFilter(false, identificationNumber);
+        InvoiceBuyerSellerSpecification invoiceSpecification = new InvoiceBuyerSellerSpecification(invoiceFilter);
+        return invoiceRepository.findAll(invoiceSpecification)
+                .stream()
+                .map(i -> invoiceMapper.toDTO(i))
+                .collect(Collectors.toList());
     }
-
-    //vytvorit funkci na nalezeni faktur podle idNum prodejce
-    //kroky:
-    //spojit idNum kterej dostaneme s idNum v seller objektu
-
 }

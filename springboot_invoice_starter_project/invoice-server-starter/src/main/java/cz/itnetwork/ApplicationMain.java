@@ -31,3 +31,15 @@ public class ApplicationMain {
         SpringApplication.run(ApplicationMain.class, args);
     }
 }
+//napady na implementaci statistik
+/*
+udelat bean s args (list<InvoiceDTO>) a bean by mela logiku na zpracovani a vytvoreni formatu
+-vyhody: trochu min class a opakovani
+-nevyhody: porusim tak trochu MVC  protoze aby sem se neopakoval v kodu
+ tak by InvoiceController musel vracet i nejakou entity jako stats DTO
+ v tu chvili uz vypada jako lepsi napad proste vytvorit novej service a controller ale ten
+ by musel bejt zavislej na vraceni z ostatnich servicech(poz. potencialni rekurze pri compilaci?)
+
+
+
+* */
