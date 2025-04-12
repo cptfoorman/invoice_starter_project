@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+//specs for writing out invoices for buyer and seller according to identificationNumber
 @RequiredArgsConstructor
 public class InvoiceBuyerSellerSpecification implements Specification<InvoiceEntity>{
 

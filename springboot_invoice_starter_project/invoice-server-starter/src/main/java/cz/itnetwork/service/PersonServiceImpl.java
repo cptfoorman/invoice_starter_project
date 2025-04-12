@@ -43,6 +43,7 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Override
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
         entity = personRepository.save(entity);
@@ -83,9 +84,7 @@ public class PersonServiceImpl implements PersonService {
         if (!personRepository.existsById(id)) {
             throw new EntityNotFoundException("Person with id " + id + " wasn't found in the database.");
         }
-        PersonEntity entity = personMapper.toEntity(personDTO);
-        entity.setHidden(true);
-        PersonEntity saved = personRepository.save(entity);
+        removePerson(id);
         return addPerson(personDTO);
     }
 
@@ -98,7 +97,8 @@ public class PersonServiceImpl implements PersonService {
      * @return Fetched entity
      * @throws org.webjars.NotFoundException In case a person with the passed [id] isn't found
      */
-    private PersonEntity fetchPersonById(long id) {
+    @Override
+    public PersonEntity fetchPersonById(long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person with id " + id + " wasn't found in the database."));
     }

@@ -1,6 +1,7 @@
 package cz.itnetwork.service;
 
 import cz.itnetwork.dto.PersonDTO;
+import cz.itnetwork.entity.PersonEntity;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -34,5 +35,7 @@ public interface PersonService {
     PersonDTO getPerson(long id);
 
     PersonDTO editPerson(long id, PersonDTO personDTO);
+
+    PersonEntity fetchPersonById(long id);
 
 }
