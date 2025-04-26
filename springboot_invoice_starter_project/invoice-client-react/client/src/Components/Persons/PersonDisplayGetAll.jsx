@@ -14,7 +14,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import IconButton from '@mui/material/IconButton'
 import * as React from 'react';
+import { PeopleActionsState } from "../../Utils/States";
+import DeleteButton from "./PersonDeleteButton";
 
+
+//table collums for maintainability
 const mainColumns = [
     { field: "button", headerName: "", minWidth: 60 },
     { field: "button2", headerName: "", minWidth: 60 },
@@ -39,12 +43,26 @@ const terciaryColumns = [
 ];
 
 //colapsible table to reduce the table overall size
-
+//contains buttons that have states for the underpage State 
 function Row(props) {
-    const { id, street, zip, city, country, note, setSelectedId } = props; // Destructure props for clarity
+    const { id, street, zip, city, country, note, setSelectedId, setUnderPageState } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
-    const handleButtonClick = () => {
-        setSelectedId(id); // Use the `id` from props to update the selected ID
+    const handleButtonClick = (e) => {
+        setSelectedId(id);// Use the `id` from props to update the selected ID
+        switch (e.target.name) {
+            case "edit":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[2].value)
+                setUnderPageState(PeopleActionsState[2])
+                break
+            case "details":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[1].value)
+                setUnderPageState(PeopleActionsState[1])
+                break
+            default:
+                console.log(e.target.name)
+        };
     };
 
     return (
@@ -106,10 +124,15 @@ function Row(props) {
                                                 Notes
                                             </Typography>
                                         </TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" gutterBottom component="div">
+                                                Actions
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow key={id}>
+                                    <TableRow key={note}>
                                         <TableCell align="left">
                                             <Typography variant="body1">
                                                 {note}
@@ -117,15 +140,17 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell align="left">
                                             {/* Button to update selectedId */}
-                                            <Button onClick={handleButtonClick}>
-                                                Click {id}
-                                            </Button>
-                                            <Button onClick={handleButtonClick}>
-                                                Click2 {id}
-                                            </Button>
-                                            <Button onClick={handleButtonClick}>
-                                                Click3 {id}
-                                            </Button>
+                                            <Stack spacing={2} direction="column">
+                                                <Button onClick={handleButtonClick} name="details" color="info" variant="contained">
+                                                    Details
+                                                </Button>
+                                            </Stack>
+                                            <Stack spacing={2} direction="column">
+                                                <Button onClick={handleButtonClick} name="edit" color="secondary" variant="contained">
+                                                    Edit
+                                                </Button>
+                                            </Stack>
+                                            <DeleteButton id={id}></DeleteButton>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
@@ -138,97 +163,10 @@ function Row(props) {
     );
 }
 
-/*function Row(props = [id, street, zip, city, country, note, setSelectedId]) {
-    const [open, setOpen] = React.useState(false);
-    const handleButtonClick = (id) => {
-        setSelectedId(id); // Update the selected ID
-      };
-    
-    return (
-        <React.Fragment>
-            <TableCell>
-                <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    onClick={() => setOpen(!open)}
-                >
-                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                </IconButton>
-            </TableCell>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                Details
-                            </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        {secondaryColumns.map((column) => (
-                                            <TableCell
-                                                key={column.name}
-                                                align={column.align}
-                                                style={{ minWidth: column.minWidth }}
-                                            >
-                                                {column.headerName}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow key={props.id}>
-                                        <TableCell component="th" scope="row">
-                                            {props.street}
-                                        </TableCell>
-                                        <TableCell>{props.zip}</TableCell>
-                                        <TableCell align="left">{props.city}</TableCell>
-                                        <TableCell align="left">
-                                            {props.country}
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Box>
-                        <Box sx={{ margin: 1 }}>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography variant="h6" gutterBottom component="div">
-                                                Notes
-                                            </Typography>
-                                        </TableCell>
-                                    </TableRow>
-
-                                </TableHead>
-
-                                <TableBody>
-                                    <TableRow key={props.id}>
-                                        <TableCell align="left">
-                                            <Typography variant="body1" >
-                                                {props.note}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                            <Button onClick={handleButtonClick(props.id)}>
-                                                click {props.id}
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </React.Fragment>
-    );
-};
-*/
 //fetches all persons from the database and lists them out accordingly 
 //policies are editable on the user since i have the userid accessible
-function GetPersons({ setSelectedId }) {
+function GetPersons(props) {
+    const { setSelectedId, setUnderPageState } = props
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -320,14 +258,15 @@ function GetPersons({ setSelectedId }) {
                                                         return (
                                                             <React.Fragment>
                                                                 <TableRow hover role="checkbox" tabIndex={-1} key={person._id}>
-                                                                    <Row 
+                                                                    <Row
                                                                         id={person._id}
                                                                         street={person.street}
                                                                         zip={person.zip}
                                                                         city={person.city}
                                                                         country={person.country}
                                                                         note={person.note}
-                                                                        setSelectedId={setSelectedId}></Row>
+                                                                        setSelectedId={setSelectedId}
+                                                                        setUnderPageState={setUnderPageState}></Row>
                                                                     <TableCell>
                                                                         {person.name}
                                                                     </TableCell>
@@ -408,4 +347,92 @@ export default GetPersons
                                     </Typography>
                                 </Paper>
                             ))
-                            }*/ 
+                            }*/
+/*function Row(props = [id, street, zip, city, country, note, setSelectedId]) {
+    const [open, setOpen] = React.useState(false);
+    const handleButtonClick = (id) => {
+        setSelectedId(id); // Update the selected ID
+      };
+    
+    return (
+        <React.Fragment>
+            <TableCell>
+                <IconButton
+                    aria-label="expand row"
+                    size="small"
+                    onClick={() => setOpen(!open)}
+                >
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                </IconButton>
+            </TableCell>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                Details
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        {secondaryColumns.map((column) => (
+                                            <TableCell
+                                                key={column.name}
+                                                align={column.align}
+                                                style={{ minWidth: column.minWidth }}
+                                            >
+                                                {column.headerName}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow key={props.id}>
+                                        <TableCell component="th" scope="row">
+                                            {props.street}
+                                        </TableCell>
+                                        <TableCell>{props.zip}</TableCell>
+                                        <TableCell align="left">{props.city}</TableCell>
+                                        <TableCell align="left">
+                                            {props.country}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                        <Box sx={{ margin: 1 }}>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography variant="h6" gutterBottom component="div">
+                                                Notes
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+ 
+                                </TableHead>
+ 
+                                <TableBody>
+                                    <TableRow key={props.id}>
+                                        <TableCell align="left">
+                                            <Typography variant="body1" >
+                                                {props.note}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Button onClick={handleButtonClick(props.id)}>
+                                                click {props.id}
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
+};
+*/

@@ -2,6 +2,7 @@ export const MainNavigationStates = [
     { value: "HOME", label: "Home" },
     { value: "PEOPLE", label: "People" },
     { value: "INVOICES", label: "Invoices" },
+    { value: "ADDPERSON", label: "Add Person" },
 ];
 
 export const UserActionState = [
@@ -9,8 +10,10 @@ export const UserActionState = [
     { value: "ACCOUNT", label: "Account" },
     { value: "LOGOUT", label: "Logout" },
 ];
-export const peopleActionsState = [
-    { value: "View", label: "View" },
-    { value: "Edit", label: "Edit" },
-    { value: "Delete", label: "Delete" },
+export const PeopleActionsState = [
+    { value: "default", label: "Default" },
+    { value: "PeopleView", label: "View" },
+    { value: "PeopleEdit", label: "Edit" },
+    { value: "InvoiceEdit", label: "Edit" },
+    { value: "InvoiceView", label: "View" },
 ];
