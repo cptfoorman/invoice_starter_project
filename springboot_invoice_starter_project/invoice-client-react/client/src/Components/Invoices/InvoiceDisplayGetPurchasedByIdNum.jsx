@@ -71,7 +71,7 @@ setUnderPageState */
 //colapsible table to reduce the table overall size
 //contains buttons that have states for the underpage State 
 function Row(props) {
-    const { dueDate,buyerId,buyerIdNum,sellerId,sellerIdNum,buyerName,sellerName, setSelectedId,note,id, setUnderPageState } = props; // Destructure props for clarity
+    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
     const handleButtonClick = (e) => {
         setSelectedId(id);// Use the `id` from props to update the selected ID
@@ -200,11 +200,12 @@ function Row(props) {
 }
 
 //fetches all persons from the database and lists them out accordingly 
-//policies are editable on the user since i have the userid accessible
-function GetInvoices(props) {
-    const { setSelectedId, setUnderPageState } = props
+function GetPurchasedInvoicesByIdNum(props) {
+    const { setSelectedId, setUnderPageState, idNum, isPurchases } = props
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [open, setOpen] = useState(false)
+    const urlEnd = isPurchases ? 'purchases' : 'sales';
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -230,7 +231,7 @@ function GetInvoices(props) {
     useEffect(() => {
         async function fetchInvoices() {
             setLoading(true)
-            const data = await apiGet("http://localhost:8080/api/invoice/getAll")
+            const data = await apiGet("http://localhost:8080/api/identification/" + idNum + "/"+urlEnd)
             console.log("sent data" + data)
             setInvoices(data)
             console.log(invoices)
@@ -246,7 +247,7 @@ function GetInvoices(props) {
             <div>
                 <Paper elevation={3}>
                     <Typography variant="h3" color="textPrimary">
-                        Fetching Invoices...
+                        Fetching {isPurchases ? "purchased":"sold" } Invoices...
                     </Typography>
                 </Paper>
             </div>
@@ -258,92 +259,101 @@ function GetInvoices(props) {
                 <Container>
                     <Box>
                         <Paper elevation={6} style={{ margin: "5px", padding: "15px", textAlign: "center" }}>
-                            <Typography variant="h1" color="textPrimary">
-                                All Invoices
+                            <IconButton
+                                aria-label="expand row"
+                                size="small"
+                                onClick={() => setOpen(!open)}
+                            >
+                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                            <Typography variant="h4" color="textPrimary">
+                                All {isPurchases ? "purchased":"sold" } Invoices
                             </Typography>
                         </Paper>
                     </Box>
-                    <Button variant="outlined" onClick={handleReload}> Reload</Button>
-                    <Box>
-                        <Paper elevation={1}>
-                            <Stack
-                                direction={{ sm: 'row' }}
-                                spacing={"2"}
-                                useFlexGap
-                                sx={{ flexWrap: 'wrap', alignItems: "center", minWidth: "180px" }}>
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
-                                        <Table stickyHeader aria-label="sticky table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    {mainColumns.map((column) => (
-                                                        <TableCell
-                                                            key={column.name}
-                                                            align={column.align}
-                                                            style={{ minWidth: column.minWidth }}
-                                                        >
-                                                            {column.headerName}
-                                                        </TableCell>
-                                                    ))}
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {invoices
-                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    .map((invoice => {
-                                                        return (
-                                                            <React.Fragment>
-                                                                <TableRow hover role="checkbox" tabIndex={-1} key={invoice._id}>
-                                                                    <Row
-                                                                        id={invoice._id}
-                                                                        dueDate={invoice.dueDate}
-                                                                        note={invoice.note}
-                                                                        buyerId={invoice.buyer._id}
-                                                                        buyerIdNum={invoice.buyer.identificationNumber}
-                                                                        buyerName={invoice.buyer.name}
-                                                                        sellerId={invoice.seller._id}
-                                                                        sellerIdNum={invoice.seller.identificationNumber}
-                                                                        sellerName={invoice.seller.name}
-                                                                        setSelectedId={setSelectedId}
-                                                                        setUnderPageState={setUnderPageState}></Row>
-                                                                    <TableCell>
-                                                                        {invoice.issued}
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        {invoice.product}
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        {invoice.price}
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        {invoice.vat}
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        {invoice.invoiceNumber}
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            </React.Fragment>
-                                                        );
-                                                    }))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25, 100]}
-                                        component="div"
-                                        count={invoices.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
-                                </Paper>
-                            </Stack>
-                        </Paper>
-                    </Box>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Button variant="outlined" onClick={handleReload}> Reload Invoices</Button>
+                        <Box>
+                            <Paper elevation={1}>
+                                <Stack
+                                    direction={{ sm: 'row' }}
+                                    spacing={"2"}
+                                    useFlexGap
+                                    sx={{ flexWrap: 'wrap', alignItems: "center", minWidth: "180px" }}>
+                                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                        <TableContainer sx={{ maxHeight: 440 }}>
+                                            <Table stickyHeader aria-label="sticky table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        {mainColumns.map((column) => (
+                                                            <TableCell
+                                                                key={column.name}
+                                                                align={column.align}
+                                                                style={{ minWidth: column.minWidth }}
+                                                            >
+                                                                {column.headerName}
+                                                            </TableCell>
+                                                        ))}
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {invoices
+                                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        .map((invoice => {
+                                                            return (
+                                                                <React.Fragment>
+                                                                    <TableRow hover role="checkbox" tabIndex={-1} key={invoice._id}>
+                                                                        <Row
+                                                                            id={invoice._id}
+                                                                            dueDate={invoice.dueDate}
+                                                                            note={invoice.note}
+                                                                            buyerId={invoice.buyer._id}
+                                                                            buyerIdNum={invoice.buyer.identificationNumber}
+                                                                            buyerName={invoice.buyer.name}
+                                                                            sellerId={invoice.seller._id}
+                                                                            sellerIdNum={invoice.seller.identificationNumber}
+                                                                            sellerName={invoice.seller.name}
+                                                                            setSelectedId={setSelectedId}
+                                                                            setUnderPageState={setUnderPageState}></Row>
+                                                                        <TableCell>
+                                                                            {invoice.issued}
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            {invoice.product}
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            {invoice.price}
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            {invoice.vat}
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            {invoice.invoiceNumber}
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                </React.Fragment>
+                                                            );
+                                                        }))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        <TablePagination
+                                            rowsPerPageOptions={[5, 10, 25, 100]}
+                                            component="div"
+                                            count={invoices.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                        />
+                                    </Paper>
+                                </Stack>
+                            </Paper>
+                        </Box>
+                    </Collapse>
                 </Container>
             </div>
         </>
     )
 }
-export default GetInvoices
+export default GetPurchasedInvoicesByIdNum

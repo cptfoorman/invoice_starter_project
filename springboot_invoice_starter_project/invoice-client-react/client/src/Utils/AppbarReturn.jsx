@@ -4,6 +4,7 @@ import GetPersons from "../Components/Persons/PersonDisplayGetAll";
 import AddPerson from "../Components/Persons/AddPerson";
 import EditPerson from "../Components/Persons/EditPerson";
 import GetInvoices from "../Components/Invoices/InvoiceDisplayGetAll";
+import PersonDetailsDisplay from "../Components/Persons/PersonDetail";
 
 
 /*export function returnedAppbarElement(props) {
@@ -101,9 +102,7 @@ export function returnedAppbarElement(props) {
         switch (currentAction) {
             case "PeopleView":
                 content = (
-                    <Typography variant="h6" color="textSecondary">
-                        Viewing details for person ID: {selectedId}
-                    </Typography>
+                    <PersonDetailsDisplay id={selectedId}></PersonDetailsDisplay>
                 );
                 break;
 

@@ -18,7 +18,7 @@ export default function NavigationAppBar() {
   };
   React.useEffect(() => {
     if (selectedId !== 0) {
-      setUnderPageState[underpageState[1]] // Console log the selected ID
+      setUnderPageState[underpageState[1]]
     }
   }, [selectedId]);
 
