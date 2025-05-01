@@ -17,6 +17,7 @@ public class InvoiceEntity {
     private long id;
 
     @Column(nullable = false, name = "invoiceNumber")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int invoiceNumber;
 
     @Column(nullable = false)

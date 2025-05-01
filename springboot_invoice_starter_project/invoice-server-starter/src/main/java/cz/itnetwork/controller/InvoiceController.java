@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class InvoiceController {
 
     @Autowired
@@ -43,6 +44,10 @@ public class InvoiceController {
     @GetMapping("/identification/{id}/sales")
     public List<InvoiceDTO> getByIdentification(@PathVariable String id){
         return invoiceService.getSellersByIdNum(id);
+    }
+    @PutMapping("/invoice/{id}")
+    public InvoiceDTO editInvoice(@PathVariable Long id, @RequestBody InvoiceDTO invoiceDTO){
+        return invoiceService.editInvoice(id,invoiceDTO);
     }
 
 }

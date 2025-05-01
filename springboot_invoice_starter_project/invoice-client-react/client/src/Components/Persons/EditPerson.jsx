@@ -6,6 +6,7 @@ import { Button, Container, Paper, MenuItem, Select, Typography } from '@mui/mat
 import { MainNavigationStates, PeopleActionsState } from '../../Utils/States';
 import { validateEmail, validateName, validatePhoneNumber } from '../../Utils/validation';
 import { apiGet } from '../../Utils/apiGet';
+import { CountrySelectState } from '../../Utils/CountryStates';
 //controlled form for adding a new user to which we can then add new policies
 //to create a feedback loop i implemented add new user button when the form is confirmed
 export default function EditPerson(props) {
@@ -73,7 +74,11 @@ export default function EditPerson(props) {
             </div>
         );
     }
-
+    //handling for changing a country
+    const handleChange = (event) => {
+        setCountry(event.target.value)
+        console.log(country)
+    }
 
     //resets user input for new user
     const handleNewInput = e => {
@@ -92,7 +97,6 @@ export default function EditPerson(props) {
         setCountry("")
         setNote("")
         setProcessing("")
-        setType("")
         setErrors("")
         setProcessing("idle")
     }
@@ -159,7 +163,15 @@ export default function EditPerson(props) {
                         <TextField id="street" label="street" variant="standard" value={street} onChange={(e) => setStreet(e.target.value)} />
                         <TextField id="zip" label="zip" variant="standard" value={zip} onChange={(e) => setZip(e.target.value)} />
                         <TextField id="city" label="City" variant="standard" value={city} onChange={(e) => setCity(e.target.value)} />
-                        <TextField id="country" label="country" variant="standard" value={country} onChange={(e) => setCountry(e.target.value)} />
+                        <Select
+                            labelId="country-select-label"
+                            id="country-select"
+                            value={country}
+                            onChange={handleChange}
+                        >
+                            <MenuItem value={CountrySelectState[0].value}>{CountrySelectState[0].label}</MenuItem>
+                            <MenuItem value={CountrySelectState[1].value}>{CountrySelectState[1].label}</MenuItem>
+                        </Select>
                         <TextField id="note" label="note" variant="standard" value={note} onChange={(e) => setNote(e.target.value)} />
                         <Button
                             onClick={handleClick}

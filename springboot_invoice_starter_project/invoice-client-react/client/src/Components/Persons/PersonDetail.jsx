@@ -83,7 +83,7 @@ function PersonDetailsDisplay(props) {
                         direction={{ sm: 'row', md: 'column' }}
                         spacing={"2"}
                         useFlexGap
-                        sx={{ flexWrap: 'wrap', alignItems: "center", minWidth: "180px" }}>
+                        sx={{ flexWrap: 'wrap', alignItems: "left", minWidth: "180px" }}>
                         <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={id}>
                             Id:{id}<br />
                             Name:{name}<br />

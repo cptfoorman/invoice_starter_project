@@ -229,18 +229,22 @@ function GetPurchasedInvoicesByIdNum(props) {
     }
     //fetches all user data
     useEffect(() => {
-        async function fetchInvoices() {
-            setLoading(true)
-            const data = await apiGet("http://localhost:8080/api/identification/" + idNum + "/"+urlEnd)
-            console.log("sent data" + data)
-            setInvoices(data)
-            console.log(invoices)
+        if (invoices.length === 0) {
+            async function fetchInvoices() {
+                setLoading(true);
+                try {
+                    const data = await apiGet(`http://localhost:8080/api/identification/${idNum}/${urlEnd}`);
+                    console.log("sent data", data);
+                    setInvoices(data);
+                } catch (error) {
+                    console.error("Error fetching invoices:", error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+            fetchInvoices();
         }
-        setLoading(false)
-        if (invoices.length == 0) {
-            fetchInvoices()
-        }
-    })
+    }, [idNum, urlEnd, invoices.length]);
     //staggered page state for ensuring that theres data to map by the elements in the default return
     if (loading == true) {
         return (

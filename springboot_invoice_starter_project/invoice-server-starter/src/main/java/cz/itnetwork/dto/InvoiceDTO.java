@@ -24,6 +24,7 @@ public class InvoiceDTO {
     @JsonProperty("invoiceNumber")
     private int invoiceNumber;
 
+    @NotNull
     private Date issued;
     @JsonProperty("dueDate")
     private Date dueDate;

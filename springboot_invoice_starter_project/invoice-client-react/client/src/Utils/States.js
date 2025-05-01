@@ -3,6 +3,7 @@ export const MainNavigationStates = [
     { value: "PEOPLE", label: "People" },
     { value: "INVOICES", label: "Invoices" },
     { value: "ADDPERSON", label: "Add Person" },
+    { value: "ADDINVOICE", label: "Add Invoice" },
 ];
 
 export const UserActionState = [

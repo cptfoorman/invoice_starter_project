@@ -15,6 +15,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import IconButton from '@mui/material/IconButton'
 import * as React from 'react';
 import { PeopleActionsState } from "../../Utils/States";
+import InvoiceDeleteButton from "./InvoiceDeleteButton";
+import dateStringFormatter from "../../Utils/dateStringFormatter";
 
 
 //table collums for maintainability
@@ -31,6 +33,7 @@ const mainColumns = [
 const secondaryColumns = [
     { field: "note", headerName: "Note", minWidth: 180 },
     { field: "dueDate", headerName: "Due Date", minWidth: 150 },
+    { field: "actions", headerName: "actions", minWidth: 150 },
 ];
 const buyerColumns = [
     {
@@ -71,20 +74,11 @@ setUnderPageState */
 //colapsible table to reduce the table overall size
 //contains buttons that have states for the underpage State 
 function Row(props) {
-    const { dueDate,buyerId,buyerIdNum,sellerId,sellerIdNum,buyerName,sellerName, setSelectedId,note,id, setUnderPageState } = props; // Destructure props for clarity
+    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
-    const handleButtonClick = (e) => {
-        setSelectedId(id);// Use the `id` from props to update the selected ID
+    const handleBuyerButtonClick = (e) => {
+        setSelectedId(buyerId);// Use the `id` from props to update the selected ID
         switch (e.target.name) {
-            case "edit":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[2].value)
-                setUnderPageState(PeopleActionsState[2])
-                break
-            case "delete":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[3].value)
-                break
             case "details":
                 console.log(e.target.name)
                 console.log(PeopleActionsState[1].value)
@@ -92,7 +86,33 @@ function Row(props) {
                 break
         };
     };
-
+    const handleSellerButtonClick = (e) => {
+        setSelectedId(sellerId);// Use the `id` from props to update the selected ID
+        switch (e.target.name) {
+            case "details":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[1].value)
+                setUnderPageState(PeopleActionsState[1])
+                break
+        };
+    };
+    const handleButtonClick = (e) => {
+            setSelectedId(id);// Use the `id` from props to update the selected ID
+            switch (e.target.name) {
+                case "edit":
+                    console.log(e.target.name)
+                    console.log(PeopleActionsState[3].value)
+                    setUnderPageState(PeopleActionsState[3])
+                    break
+                case "details":
+                    console.log(e.target.name)
+                    console.log(PeopleActionsState[1].value)
+                    setUnderPageState(PeopleActionsState[1])
+                    break
+                default:
+                    console.log(e.target.name)
+            };
+        };
     return (
         <React.Fragment>
             {/* Expandable Button */}
@@ -134,7 +154,13 @@ function Row(props) {
                                         <TableCell component="th" scope="row">
                                             {note}
                                         </TableCell>
-                                        <TableCell>{dueDate}</TableCell>
+                                        <TableCell>{dateStringFormatter(dueDate)}</TableCell>
+                                        <TableCell>
+                                            <InvoiceDeleteButton id={id}></InvoiceDeleteButton>
+                                            <Button onClick={handleButtonClick} name="edit" color="primary" variant="outlined">
+                                                Edit
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -160,6 +186,11 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell>{buyerIdNum}</TableCell>
                                         <TableCell>{buyerId}</TableCell>
+                                        <Stack spacing={2} direction="column">
+                                            <Button onClick={handleBuyerButtonClick} name="details" color="info" variant="contained">
+                                                Details
+                                            </Button>
+                                        </Stack>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -188,6 +219,11 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell>{sellerIdNum}</TableCell>
                                         <TableCell>{sellerId}</TableCell>
+                                        <Stack spacing={2} direction="column">
+                                            <Button onClick={handleSellerButtonClick} name="details" color="info" variant="contained">
+                                                Details
+                                            </Button>
+                                        </Stack>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -307,7 +343,7 @@ function GetInvoices(props) {
                                                                         setSelectedId={setSelectedId}
                                                                         setUnderPageState={setUnderPageState}></Row>
                                                                     <TableCell>
-                                                                        {invoice.issued}
+                                                                        {dateStringFormatter(invoice.issued)}
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         {invoice.product}

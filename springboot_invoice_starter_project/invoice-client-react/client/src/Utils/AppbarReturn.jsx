@@ -5,6 +5,8 @@ import AddPerson from "../Components/Persons/AddPerson";
 import EditPerson from "../Components/Persons/EditPerson";
 import GetInvoices from "../Components/Invoices/InvoiceDisplayGetAll";
 import PersonDetailsDisplay from "../Components/Persons/PersonDetail";
+import AddInvoice from "../Components/Invoices/AddInvoice";
+import EditInvoice from "../Components/Invoices/EditInvoice";
 
 
 /*export function returnedAppbarElement(props) {
@@ -88,6 +90,11 @@ export function returnedAppbarElement(props) {
                     <AddPerson setPageState={setPageState}></AddPerson>
                 );
                 break;
+            case "ADDINVOICE":
+                content = (
+                    <AddInvoice setPageState={setPageState}></AddInvoice>
+                );
+                break;
 
             default:
                 content = (
@@ -123,9 +130,8 @@ export function returnedAppbarElement(props) {
                 break;
             case "InvoiceEdit":
                 content = (
-                    <Typography variant="h6" color="error">
-                        Editing invoice ID: {selectedId}
-                    </Typography>
+                    <EditInvoice setPageState={setPageState} id={selectedId} setUnderPageState={setUnderPageState}>   
+                    </EditInvoice>
                 );
                 break;
 
