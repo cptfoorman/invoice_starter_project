@@ -20,7 +20,7 @@ export default function EditInvoice(props) {
     const [invoiceNumber, setInvoiceNumber] = useState('')
     const [sellerId, setSellerId] = useState('')
     const [buyerId, setBuyerId] = useState('')
-    const [issued, setIssued] = useState(dateStringFormatter(new Date))
+    const [issued, setIssued] = useState(dayjs('2022-04-17'))
     const [dueDate, setDueDate] = useState(dayjs('2022-04-17'))
     const [product, setProduct] = useState('')
     const [price, setPrice] = useState('')
@@ -100,17 +100,17 @@ async function fetchPersons() {
             try {
                 setLoading(true); // Start loading
                 const peopleData = await apiGet("http://localhost:8080/api/persons")
-                const data = await apiGet(`http://localhost:8080/api/invoice/${id}`);
                 setPersons(peopleData)
-                setInvoiceNumber = useState(data.invoiceNumber)
-                setSellerId = useState(data.seller._id)
-                setBuyerId = useState(data.buyer._id)
-                setIssued = useState(data.issued)
-                setDueDate = useState(dateStringFormatter(data.dueDate))
-                setProduct = useState(data.product)
-                setPrice = useState(data.price)
-                setVat = useState(data.vat)
-                setNote = useState(data.note)
+                const data = await apiGet(`http://localhost:8080/api/invoice/${id}`);
+                setInvoiceNumber(data.invoiceNumber)
+                setSellerId(data.seller._id)
+                setBuyerId(data.buyer._id)
+                setIssued(dayjs(data.issued))
+                setDueDate(dayjs(data.dueDate))
+                setProduct(data.product)
+                setPrice(data.price)
+                setVat (data.vat)
+                setNote(data.note)
                 console.log("Fetched data:", data);
             } catch (error) {
                 console.error("Error fetching person data:", error);
@@ -155,8 +155,8 @@ async function fetchPersons() {
             note: note
         }
         console.log(jsonData);
-        fetch('http://localhost:8080/api/invoice', {
-            method: "POST",
+        fetch(`http://localhost:8080/api/invoice/${id}`, {
+            method: "PUT",
             headers: { "Content-type": "application/JSON" },
             body: JSON.stringify(jsonData)
         }
@@ -187,7 +187,14 @@ async function fetchPersons() {
                             value={price} onChange={(e) => setPrice(e.target.value)}
                         />
                         <TextField id="vat" label="vat" variant="standard" value={vat} onChange={(e) => setVat(e.target.value)} />
-                        <TextField id="issued" label="issued" variant="outlined" value={issued} disabled="true" onChange={(e) => setIssued(e.target.value)} />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateField
+                                label="Controlled field"
+                                format="YYYY-MM-DD"
+                                value={issued}
+                                onChange={(newValue) => setIssued(newValue)}
+                            />
+                        </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateField
                                 label="Controlled field"
