@@ -147,7 +147,7 @@ async function fetchPersons() {
             buyer: {
                 _id: buyerId
             },
-            issued: issued,
+            issued: dateStringFormatter(issued),
             dueDate: dateStringFormatter(dueDate),
             product: product,
             price: price,
@@ -219,7 +219,7 @@ async function fetchPersons() {
                             {persons.map(person => {
                                 return (
                                     <MenuItem value={person._id} key={person._id}>
-                                        {person.name}
+                                        {person._id}. {person.name}
                                     </MenuItem>)
                             }
 
@@ -241,7 +241,7 @@ async function fetchPersons() {
                             {persons.map(person => {
                                 return (
                                     <MenuItem value={person._id} key={person._id}>
-                                        {person.name}
+                                        {person._id}. {person.name}
                                     </MenuItem>)
                             }
 

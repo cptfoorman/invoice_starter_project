@@ -7,6 +7,7 @@ import GetInvoices from "../Components/Invoices/InvoiceDisplayGetAll";
 import PersonDetailsDisplay from "../Components/Persons/PersonDetail";
 import AddInvoice from "../Components/Invoices/AddInvoice";
 import EditInvoice from "../Components/Invoices/EditInvoice";
+import SearchInvoice from "../Components/Invoices/SearchInvoices";
 
 
 /*export function returnedAppbarElement(props) {
@@ -96,6 +97,14 @@ export function returnedAppbarElement(props) {
                 );
                 break;
 
+            case "SEARCHINVOICE":
+                content = (
+                    <SearchInvoice
+                    setPageState={setPageState}
+                    setUnderPageState={setUnderPageState}
+                    setSelectedId={setSelectedId}></SearchInvoice>
+                );
+                break;
             default:
                 content = (
                     <Typography variant="h6" color="error">
@@ -130,7 +139,7 @@ export function returnedAppbarElement(props) {
                 break;
             case "InvoiceEdit":
                 content = (
-                    <EditInvoice setPageState={setPageState} id={selectedId} setUnderPageState={setUnderPageState}>   
+                    <EditInvoice setPageState={setPageState} id={selectedId} setUnderPageState={setUnderPageState}>
                     </EditInvoice>
                 );
                 break;

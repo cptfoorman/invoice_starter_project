@@ -97,22 +97,22 @@ function Row(props) {
         };
     };
     const handleButtonClick = (e) => {
-            setSelectedId(id);// Use the `id` from props to update the selected ID
-            switch (e.target.name) {
-                case "edit":
-                    console.log(e.target.name)
-                    console.log(PeopleActionsState[3].value)
-                    setUnderPageState(PeopleActionsState[3])
-                    break
-                case "details":
-                    console.log(e.target.name)
-                    console.log(PeopleActionsState[1].value)
-                    setUnderPageState(PeopleActionsState[1])
-                    break
-                default:
-                    console.log(e.target.name)
-            };
+        setSelectedId(id);// Use the `id` from props to update the selected ID
+        switch (e.target.name) {
+            case "edit":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[3].value)
+                setUnderPageState(PeopleActionsState[3])
+                break
+            case "details":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[1].value)
+                setUnderPageState(PeopleActionsState[1])
+                break
+            default:
+                console.log(e.target.name)
         };
+    };
     return (
         <React.Fragment>
             {/* Expandable Button */}
@@ -237,10 +237,11 @@ function Row(props) {
 
 //fetches all persons from the database and lists them out accordingly 
 //policies are editable on the user since i have the userid accessible
-function GetInvoices(props) {
-    const { setSelectedId, setUnderPageState } = props
+function GetFilteredInvoices(props) {
+    const { setSelectedId, setUnderPageState, filterUrl, setIsSearching } = props
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [isNotFound, setIsNotfound] = useState(false)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -250,7 +251,9 @@ function GetInvoices(props) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
+    const handleNewSearch = (event) => {
+        setIsSearching(false);
+    };
 
     const [invoices, setInvoices] = useState([])
     const [loading, setLoading] = useState(true)
@@ -267,20 +270,24 @@ function GetInvoices(props) {
         async function fetchInvoices() {
             setLoading(true);
             try {
-                const data = await apiGet("http://localhost:8080/api/invoice/getAll");
-                console.log("sent data", data);
+                const data = await apiGet(filterUrl);
+                console.log("Fetched data:", data);
                 setInvoices(data);
+
+                // If no invoices were found, mark it as not found
+                setIsNotfound(data.length === 0);
             } catch (error) {
                 console.error("Error fetching invoices:", error);
+                setIsNotfound(true); // If fetch fails, assume no data
             } finally {
                 setLoading(false);
             }
         }
-    
-        if (invoices.length === 0) {
+
+        if (filterUrl) {
             fetchInvoices();
         }
-    }, [invoices]);
+    }, [filterUrl]);
     //staggered page state for ensuring that theres data to map by the elements in the default return
     if (loading == true) {
         return (
@@ -289,6 +296,20 @@ function GetInvoices(props) {
                     <Typography variant="h3" color="textPrimary">
                         Fetching Invoices...
                     </Typography>
+                </Paper>
+            </div>
+        )
+    }
+    if (isNotFound) {
+        return (
+            <div>
+                <Paper elevation={3}>
+                    <Typography variant="h3" color="textPrimary">
+                        No such invoices found
+                    </Typography>
+                    <Button onClick={handleNewSearch}>
+                        New Search
+                    </Button>
                 </Paper>
             </div>
         )
@@ -305,6 +326,9 @@ function GetInvoices(props) {
                         </Paper>
                     </Box>
                     <Button variant="outlined" onClick={handleReload}> Reload</Button>
+                    <Button onClick={handleNewSearch}>
+                        New Search
+                    </Button>
                     <Box>
                         <Paper elevation={1}>
                             <Stack
@@ -387,4 +411,4 @@ function GetInvoices(props) {
         </>
     )
 }
-export default GetInvoices
+export default GetFilteredInvoices

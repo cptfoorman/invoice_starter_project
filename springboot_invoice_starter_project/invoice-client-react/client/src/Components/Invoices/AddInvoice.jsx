@@ -155,7 +155,7 @@ export default function AddInvoice(props) {
                             {persons.map(person => {
                                 return (
                                     <MenuItem value={person._id} key={person._id}>
-                                        {person.name}
+                                        {person._id}. {person.name}
                                     </MenuItem>)
                             }
 
@@ -177,7 +177,7 @@ export default function AddInvoice(props) {
                             {persons.map(person => {
                                 return (
                                     <MenuItem value={person._id} key={person._id}>
-                                        {person.name}
+                                        {person._id}. {person.name}
                                     </MenuItem>)
                             }
 
