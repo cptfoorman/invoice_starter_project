@@ -97,22 +97,22 @@ function Row(props) {
         };
     };
     const handleButtonClick = (e) => {
-            setSelectedId(id);// Use the `id` from props to update the selected ID
-            switch (e.target.name) {
-                case "edit":
-                    console.log(e.target.name)
-                    console.log(PeopleActionsState[3].value)
-                    setUnderPageState(PeopleActionsState[3])
-                    break
-                case "details":
-                    console.log(e.target.name)
-                    console.log(PeopleActionsState[1].value)
-                    setUnderPageState(PeopleActionsState[1])
-                    break
-                default:
-                    console.log(e.target.name)
-            };
+        setSelectedId(id);// Use the `id` from props to update the selected ID
+        switch (e.target.name) {
+            case "edit":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[3].value)
+                setUnderPageState(PeopleActionsState[3])
+                break
+            case "details":
+                console.log(e.target.name)
+                console.log(PeopleActionsState[1].value)
+                setUnderPageState(PeopleActionsState[1])
+                break
+            default:
+                console.log(e.target.name)
         };
+    };
     return (
         <React.Fragment>
             {/* Expandable Button */}
@@ -156,10 +156,12 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell>{dateStringFormatter(dueDate)}</TableCell>
                                         <TableCell>
-                                            <InvoiceDeleteButton id={id}></InvoiceDeleteButton>
-                                            <Button onClick={handleButtonClick} name="edit" color="primary" variant="outlined">
-                                                Edit
-                                            </Button>
+                                            <Stack>
+                                                <InvoiceDeleteButton id={id}></InvoiceDeleteButton>
+                                                <Button onClick={handleButtonClick} name="edit" color="secondary" variant="contained">
+                                                    Edit
+                                                </Button>
+                                            </Stack>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
@@ -276,7 +278,7 @@ function GetInvoices(props) {
                 setLoading(false);
             }
         }
-    
+
         if (invoices.length === 0) {
             fetchInvoices();
         }

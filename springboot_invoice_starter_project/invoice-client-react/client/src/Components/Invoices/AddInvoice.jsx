@@ -130,7 +130,7 @@ export default function AddInvoice(props) {
                             value={price} onChange={(e) => setPrice(e.target.value)}
                         />
                         <TextField id="vat" label="vat" variant="standard" value={vat} onChange={(e) => setVat(e.target.value)} />
-                        <TextField id="issued" label="issued" variant="outlined" value={issued} disabled="true" onChange={(e) => setIssued(e.target.value)} />
+                        <TextField id="issued" label="issued" variant="outlined" value={issued} disabled={true} onChange={(e) => setIssued(e.target.value)} />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateField
                                 label="Controlled field"
@@ -141,7 +141,7 @@ export default function AddInvoice(props) {
                         </LocalizationProvider>
                         <TextField id="note" label="note" variant="standard" value={note} onChange={(e) => setNote(e.target.value)} /><br />
                         <InputLabel id="buyer-select-helper-label">Buyer</InputLabel>
-                        <TextField id="buyerId" label="buyerId" variant="standard" value={buyerId} disabled="true" onChange={(e) => setBuyerId(e.target.value)} />
+                        <TextField id="buyerId" label="buyerId" variant="standard" value={buyerId} disabled={true} onChange={(e) => setBuyerId(e.target.value)} />
                         <Select
                             labelId="select-buyerId"
                             id="select-buyerId"
@@ -163,7 +163,7 @@ export default function AddInvoice(props) {
 
                         </Select>
                         <InputLabel id="seller-select-helper-label">Seler</InputLabel>
-                        <TextField id="sellerId" label="sellerId" variant="standard" value={sellerId} disabled="true" onChange={(e) => setSellerId(e.target.value)} />
+                        <TextField id="sellerId" label="sellerId" variant="standard" value={sellerId} disabled={true} onChange={(e) => setSellerId(e.target.value)} />
                         <Select
                             labelId="select-sellerId"
                             id="select-selelrId"

@@ -8,6 +8,8 @@ import PersonDetailsDisplay from "../Components/Persons/PersonDetail";
 import AddInvoice from "../Components/Invoices/AddInvoice";
 import EditInvoice from "../Components/Invoices/EditInvoice";
 import SearchInvoice from "../Components/Invoices/SearchInvoices";
+import RevenueChart from "../Components/Charts/RevenueChart";
+import AllTimeChart from "../Components/Charts/AllTimeChart";
 
 
 /*export function returnedAppbarElement(props) {
@@ -100,9 +102,19 @@ export function returnedAppbarElement(props) {
             case "SEARCHINVOICE":
                 content = (
                     <SearchInvoice
-                    setPageState={setPageState}
-                    setUnderPageState={setUnderPageState}
-                    setSelectedId={setSelectedId}></SearchInvoice>
+                        setPageState={setPageState}
+                        setUnderPageState={setUnderPageState}
+                        setSelectedId={setSelectedId}></SearchInvoice>
+                );
+                break;
+            case "PEOPLESTATISTICS":
+                content = (
+                    <RevenueChart/>
+                );
+                break;
+            case "ALLTIMESTATISTICS":
+                content = (
+                    <AllTimeChart/>
                 );
                 break;
             default:

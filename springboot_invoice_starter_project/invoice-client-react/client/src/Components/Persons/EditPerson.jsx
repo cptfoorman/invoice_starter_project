@@ -153,7 +153,7 @@ export default function EditPerson(props) {
                         autoComplete="off"
                     >
                         <TextField id="fullName" label="fullName" variant="standard" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                        <TextField id="identificationNumber" label="identificationNumber" variant="standard" value={identificationNumber} disabled="true" onChange={(e) => setIdentificationNumber(e.target.value)} />
+                        <TextField id="identificationNumber" label="identificationNumber" variant="standard" value={identificationNumber} disabled={true} onChange={(e) => setIdentificationNumber(e.target.value)} />
                         <TextField id="taxNumber" label="taxNumber" variant="standard" inputMode='tel' value={taxNumber} onChange={(e) => setTaxNumber(e.target.value)} />
                         <TextField id="accountNumber" label="accountNumber Code" variant="standard" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
                         <TextField id="telephone" label="telephone" variant="standard" value={telephone} onChange={(e) => setTelephone(e.target.value)} />

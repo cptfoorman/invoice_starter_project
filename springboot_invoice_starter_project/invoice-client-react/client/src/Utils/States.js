@@ -5,6 +5,8 @@ export const MainNavigationStates = [
     { value: "ADDPERSON", label: "Add Person" },
     { value: "ADDINVOICE", label: "Add Invoice" },
     { value: "SEARCHINVOICE", label: "Search Invoices" },
+    { value: "PEOPLESTATISTICS", label: "People Statistics" },
+    { value: "ALLTIMESTATISTICS", label: "All Time Statistics" },
 ];
 
 export const UserActionState = [
