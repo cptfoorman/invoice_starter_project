@@ -258,13 +258,6 @@ function GetFilteredInvoices(props) {
     const [invoices, setInvoices] = useState([])
     const [loading, setLoading] = useState(true)
 
-
-    //button for reloading users since fetching data is async it would fetch infinitely otherwise
-    const handleReload = e => {
-        e.preventDefault()
-        setInvoices([])
-        setLoading(true)
-    }
     //fetches all user data
     useEffect(() => {
         async function fetchInvoices() {
@@ -325,7 +318,6 @@ function GetFilteredInvoices(props) {
                             </Typography>
                         </Paper>
                     </Box>
-                    <Button variant="outlined" onClick={handleReload}> Reload</Button>
                     <Button onClick={handleNewSearch}>
                         New Search
                     </Button>

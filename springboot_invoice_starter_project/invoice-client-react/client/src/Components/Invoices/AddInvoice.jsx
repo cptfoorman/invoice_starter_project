@@ -133,7 +133,7 @@ export default function AddInvoice(props) {
                         <TextField id="issued" label="issued" variant="outlined" value={issued} disabled={true} onChange={(e) => setIssued(e.target.value)} />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateField
-                                label="Controlled field"
+                                label="Due Date"
                                 format="YYYY-MM-DD"
                                 value={dueDate}
                                 onChange={(newValue) => setDueDate(newValue)}

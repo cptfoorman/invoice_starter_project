@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button, Container, Paper, MenuItem, Select } from '@mui/material';
 import { MainNavigationStates } from '../../Utils/States';
 import { validateEmail, validatePhoneNumber } from '../../Utils/validation';
+import { CountrySelectState } from '../../Utils/CountryStates';
 //controlled form for adding a new user to which we can then add new policies
 //to create a feedback loop i implemented add new user button when the form is confirmed
 export default function AddPerson(props) {
@@ -88,6 +89,10 @@ export default function AddPerson(props) {
       })
     }
   }
+  const handleChange = (event) => {
+    setCountry(event.target.value)
+    console.log(country)
+  }
   return (
     <div>
       <Container>
@@ -109,7 +114,15 @@ export default function AddPerson(props) {
             <TextField id="street" label="street" variant="standard" value={street} onChange={(e) => setStreet(e.target.value)} />
             <TextField id="zip" label="zip" variant="standard" value={zip} onChange={(e) => setZip(e.target.value)} />
             <TextField id="city" label="City" variant="standard" value={city} onChange={(e) => setCity(e.target.value)} />
-            <TextField id="country" label="country" variant="standard" value={country} onChange={(e) => setCountry(e.target.value)} />
+            <Select
+              labelId="country-select-label"
+              id="country-select"
+              value={country}
+              onChange={handleChange}
+            >
+              <MenuItem value={CountrySelectState[0].value}>{CountrySelectState[0].label}</MenuItem>
+              <MenuItem value={CountrySelectState[1].value}>{CountrySelectState[1].label}</MenuItem>
+            </Select>
             <TextField id="note" label="note" variant="standard" value={note} onChange={(e) => setNote(e.target.value)} />
             <Button
               onClick={handleClick}
@@ -122,18 +135,3 @@ export default function AddPerson(props) {
     </div>
   )
 }
-/*
-setName('')
-    setIdentificationNumber('')
-    setTaxNumber('')
-    setAccountNumber('')
-    setTelephone('')
-    setBankCode('')
-    setIban('')
-    setMail("")
-    setStreet("")
-    setZip("")
-    setCity("")
-    setCountry("")
-    setNote("")
-  */

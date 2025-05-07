@@ -25,21 +25,27 @@ public class InvoiceDTO {
     private int invoiceNumber;
 
     @NotNull
+    @Positive
     private Date issued;
+
+    @NotNull
+    @Positive
     @JsonProperty("dueDate")
     private Date dueDate;
 
+    @NotNull
     private String product;
 
-
+    @NotNull
     private double price;
 
+    @NotNull
     private int vat;
 
     private String note;
-
+    @NotNull
     private PersonDTO buyer;
-
+    @NotNull
     private PersonDTO seller;
 
 }
