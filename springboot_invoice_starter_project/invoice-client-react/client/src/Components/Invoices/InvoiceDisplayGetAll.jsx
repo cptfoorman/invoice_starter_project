@@ -62,19 +62,11 @@ const sellerColumns = [
     { field: "sellerId", headerName: "Seller ID", minWidth: 130 },
 ];
 
-/*dueDate
-note
-buyerId
-buyerIdNum
-sellerId
-sellerIdNum
-setSelectedId
-setUnderPageState */
 
-//colapsible table to reduce the table overall size
+//colapsible table to reduce the tables overall size
 //contains buttons that have states for the underpage State 
 function Row(props) {
-    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState } = props; // Destructure props for clarity
+    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState, handleReload } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
     const handleBuyerButtonClick = (e) => {
         setSelectedId(buyerId);// Use the `id` from props to update the selected ID
@@ -157,7 +149,7 @@ function Row(props) {
                                         <TableCell>{dateStringFormatter(dueDate)}</TableCell>
                                         <TableCell>
                                             <Stack>
-                                                <InvoiceDeleteButton id={id}></InvoiceDeleteButton>
+                                                <InvoiceDeleteButton id={id} handleReload={handleReload}></InvoiceDeleteButton>
                                                 <Button onClick={handleButtonClick} name="edit" color="secondary" variant="contained">
                                                     Edit
                                                 </Button>
@@ -348,7 +340,8 @@ function GetInvoices(props) {
                                                                         sellerIdNum={invoice.seller.identificationNumber}
                                                                         sellerName={invoice.seller.name}
                                                                         setSelectedId={setSelectedId}
-                                                                        setUnderPageState={setUnderPageState}></Row>
+                                                                        setUnderPageState={setUnderPageState}
+                                                                        handleReload={handleReload}></Row>
                                                                     <TableCell>
                                                                         {dateStringFormatter(invoice.issued)}
                                                                     </TableCell>

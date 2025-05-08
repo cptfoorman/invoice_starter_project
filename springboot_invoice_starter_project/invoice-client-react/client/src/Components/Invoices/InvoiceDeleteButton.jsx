@@ -2,7 +2,8 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 //delete button for deleting an Invoice needs the corresponding Invoice id
-export default function InvoiceDeleteButton({id}) {
+export default function InvoiceDeleteButton(props) {
+  const {id, handleReload} = props
     const [url,setUrl] = React.useState("http://localhost:8080/api/invoice/"+id)
     const [processing, setProcessing] = React.useState("idle")
     const handleClick = e => {
