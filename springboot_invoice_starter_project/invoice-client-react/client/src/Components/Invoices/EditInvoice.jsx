@@ -54,45 +54,6 @@ export default function EditInvoice(props) {
         setErrors("")
         setProcessing("idle")
     }
-    /*
-    useEffect(() => {
-        async function fetchInvoice() {
-            try {
-                setLoading(true); // Start loading
-                const data = await apiGet(`http://localhost:8080/api/invoice/${id}`);
-                setInvoiceNumber = useState(data.invoiceNumber)
-                setSellerId = useState(data.seller._id)
-                setBuyerId = useState(data.buyer._id)
-                setIssued = useState(data.issued)
-                setDueDate = useState(dateStringFormatter(data.dueDate))
-                setProduct = useState(data.product)
-                setPrice = useState(data.price)
-                setVat = useState(data.vat)
-                setNote = useState(data.note)
-                console.log("Fetched data:", data);
-            } catch (error) {
-                console.error("Error fetching person data:", error);
-                setErrors({ fetch: "Failed to fetch invoice data" });
-            } finally {
-                setLoading(false); // End loading
-            }
-        }
-
-        if (id) {
-            fetchInvoice();
-        }
-    }, [id]);
-async function fetchPersons() {
-            setLoading(true)
-            const data = await apiGet("http://localhost:8080/api/persons")
-            console.log("sent data" + data)
-            setPersons(data)
-            console.log(persons)
-        }
-        setLoading(false)
-        if (persons.length == 0) {
-            fetchPersons()
-        }*/
     //fetches all user data
     useEffect(() => {
         
@@ -128,14 +89,6 @@ async function fetchPersons() {
     //checks for errors if no found sends data
     const handleClick = e => {
         e.preventDefault()
-        /*const newErrors = {}
-        if (!validatePhoneNumber(product)) {
-            newErrors.product = "Invalid product"
-        }
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors)
-            console.log(errors)
-        } else {*/
         setPageState(MainNavigationStates[0])
         setUnderPageState(PeopleActionsState[0])
         console.log("no errors")

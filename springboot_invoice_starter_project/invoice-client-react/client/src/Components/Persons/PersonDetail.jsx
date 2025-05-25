@@ -27,7 +27,7 @@ function PersonDetailsDisplay(props) {
     React.useEffect(() => {
         async function fetchPerson() {
             try {
-                setLoading(true); // Start loading
+                setLoading(true);
                 const data = await apiGet(`http://localhost:8080/api/persons/${id}`);
                 setFullName(data.name);
                 setAccountNumber(data.accountNumber);
@@ -47,7 +47,7 @@ function PersonDetailsDisplay(props) {
                 console.error("Error fetching person data:", error);
                 setErrors({ fetch: "Failed to fetch person data" });
             } finally {
-                setLoading(false); // End loading
+                setLoading(false);
             }
         }
 
@@ -86,7 +86,7 @@ function PersonDetailsDisplay(props) {
                         sx={{ flexWrap: 'wrap', alignItems: "left", minWidth: "180px" }}>
                         <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={id}>
                             Id:{id}<br />
-                            Name:{name}<br />
+                            Name:{fullName}<br />
                             identification Number: {identificationNumber}<br />
                             Street: {street}<br />
                             City: {city}<br />
@@ -103,7 +103,7 @@ function PersonDetailsDisplay(props) {
                             <GetPurchasedInvoicesByIdNum idNum={identificationNumber} isPurchases={true}></GetPurchasedInvoicesByIdNum>
                         </Paper>
                         <Paper>
-                        <GetPurchasedInvoicesByIdNum idNum={identificationNumber} isPurchases={false}></GetPurchasedInvoicesByIdNum>
+                            <GetPurchasedInvoicesByIdNum idNum={identificationNumber} isPurchases={false}></GetPurchasedInvoicesByIdNum>
                         </Paper>
                     </Stack>
                 </Paper>

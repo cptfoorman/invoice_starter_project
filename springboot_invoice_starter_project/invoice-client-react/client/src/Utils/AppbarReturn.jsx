@@ -12,48 +12,8 @@ import RevenueChart from "../Components/Charts/RevenueChart";
 import AllTimeChart from "../Components/Charts/AllTimeChart";
 
 
-/*export function returnedAppbarElement(props) {
-    const { currentPage, setSelectedId, selectedId } = props; // Destructure props for clarity
+//returning appbar element to keep the context of the app and passing needed variables around the app
 
-    let content;
-
-    switch (currentPage) {
-        case "PEOPLE":
-            content = (
-                <GetPersons
-                    setSelectedId={setSelectedId}
-                    selectedId={selectedId}
-                />
-            );
-            break;
-
-        case "INVOICES":
-            content = (
-                <Typography variant="h6" color="textSecondary">
-                    Invoices Content
-                </Typography>
-            );
-            break;
-
-        case "HOME":
-            content = (
-                <Typography variant="h1" color="textPrimary">
-                    Welcome to my database
-                </Typography>
-            );
-            break;
-
-        default:
-            content = (
-                <Typography variant="h6" color="error">
-                    Page not found
-                </Typography>
-            );
-            break;
-    }
-
-    return <React.Fragment>{content}</React.Fragment>;
-}*/
 export function returnedAppbarElement(props) {
     const { currentPage, currentAction, setSelectedId, selectedId, setUnderPageState, setPageState } = props; // Destructure props for clarity
 
@@ -104,7 +64,8 @@ export function returnedAppbarElement(props) {
                     <SearchInvoice
                         setPageState={setPageState}
                         setUnderPageState={setUnderPageState}
-                        setSelectedId={setSelectedId}></SearchInvoice>
+                        setSelectedId={setSelectedId}
+                        ></SearchInvoice>
                 );
                 break;
             case "PEOPLESTATISTICS":

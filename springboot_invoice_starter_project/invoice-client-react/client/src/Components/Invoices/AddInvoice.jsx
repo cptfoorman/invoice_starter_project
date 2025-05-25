@@ -12,8 +12,7 @@ import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-//controlled form for adding a new user to which we can then add new policies
-//to create a feedback loop i implemented add new user button when the form is confirmed
+//controlled form for adding a new user
 export default function AddInvoice(props) {
     const { setPageState } = props
     const [invoiceNumber, setInvoiceNumber] = useState('')
@@ -72,14 +71,6 @@ export default function AddInvoice(props) {
     //checks for errors if no found sends data
     const handleClick = e => {
         e.preventDefault()
-        /*const newErrors = {}
-        if (!validatePhoneNumber(product)) {
-            newErrors.product = "Invalid product"
-        }
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors)
-            console.log(errors)
-        } else {*/
             setPageState(MainNavigationStates[0])
             console.log("no errors")
             const jsonData = {
@@ -115,7 +106,7 @@ export default function AddInvoice(props) {
                         noValidate
                         autoComplete="off"
                     >
-                        <TextField id="invoiceNumber" label="invoice number" variant="standard" value={invoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} />
+                        <TextField id="invoiceNumber" label="invoice number" variant="standard" type="number" value={invoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} />
                         <TextField id="product" label="product" variant="standard" value={product} onChange={(e) => setProduct(e.target.value)} /><br />
                         <TextField
                             id="price"
@@ -166,7 +157,7 @@ export default function AddInvoice(props) {
                         <TextField id="sellerId" label="sellerId" variant="standard" value={sellerId} disabled={true} onChange={(e) => setSellerId(e.target.value)} />
                         <Select
                             labelId="select-sellerId"
-                            id="select-selelrId"
+                            id="select-sellerId"
                             value={sellerId}
                             onChange={handleSellerIdChange}
                             autoWidth

@@ -49,10 +49,9 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
-
     @PostMapping("/person")
     public PersonDTO addPerson(@RequestBody PersonDTO personDTO) {
-        return  personService.addPerson(personDTO);
+        return personService.addPerson(personDTO);
     }
 
     @PutMapping("/persons/{id}")
@@ -65,7 +64,6 @@ public class PersonController {
     public HttpStatus deletePerson(@PathVariable Long personId) {
         return personService.removePerson(personId);
     }
-
 
 }
 

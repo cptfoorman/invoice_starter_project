@@ -13,8 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
-public class StatisticsServiceImpl implements StatisticsService{
+public class StatisticsServiceImpl implements StatisticsService {
 
 
     @Autowired
@@ -23,43 +24,49 @@ public class StatisticsServiceImpl implements StatisticsService{
     @Autowired
     private PersonServiceImpl personService;
 
+
+    /*
+     * loops over invoices and adds up all time revenue and invoice count
+     * @return InvoiceStatisticsDTO*/
     @Override
     public InvoiceStatisticsDTO getInvoiceAllTimeStatistics() {
         InvoiceFilter invoiceFilter = new InvoiceFilter();
         InvoiceStatisticsDTO invoiceStatisticsDTO = new InvoiceStatisticsDTO();
         //init a year string for comparison for currentYearSum
-        String localDateSubstring = LocalDate.now().toString().substring(0,4);
+        String localDateSubstring = LocalDate.now().toString().substring(0, 4);
         //read values from invoiceDTO
-        for (InvoiceDTO i: invoiceService.getAllInvoices(invoiceFilter)){
-            String currentInvoiceYear = i.getIssued().toString().substring(0,4);
+        for (InvoiceDTO i : invoiceService.getAllInvoices(invoiceFilter)) {
+            String currentInvoiceYear = i.getIssued().toString().substring(0, 4);
             //add stats to the new DTO
-            invoiceStatisticsDTO.setInvoiceCount(invoiceStatisticsDTO.getInvoiceCount()+1);
+            invoiceStatisticsDTO.setInvoiceCount(invoiceStatisticsDTO.getInvoiceCount() + 1);
             //add allTimeSum
-            invoiceStatisticsDTO.setAllTimeSum(invoiceStatisticsDTO.getAllTimeSum()+i.getPrice());
+            invoiceStatisticsDTO.setAllTimeSum(invoiceStatisticsDTO.getAllTimeSum() + i.getPrice());
             //count currentYearSum dependent on the current date
-            if (currentInvoiceYear.contains(localDateSubstring)){
-                invoiceStatisticsDTO.setCurrentYearSum(invoiceStatisticsDTO.getCurrentYearSum()+i.getPrice());
+            if (currentInvoiceYear.contains(localDateSubstring)) {
+                invoiceStatisticsDTO.setCurrentYearSum(invoiceStatisticsDTO.getCurrentYearSum() + i.getPrice());
             }
         }
         return invoiceStatisticsDTO;
     }
 
 
-
+    /*
+     * loops over persons and invoices and creates a list of DTOs
+     * @return List<PersonStatisticsDTO>*/
     @Override
     public List<PersonStatisticsDTO> getPersonsStatistics() {
         List<PersonStatisticsDTO> personStatisticsDTOS = new ArrayList<>();
         //get all non-hidden people
-        //loop over list of the people
-        for (PersonDTO i: personService.getAll()){
+        for (PersonDTO i : personService.getAll()) {
+            //loop over list of the people
             PersonStatisticsDTO newStatisticsDTO = new PersonStatisticsDTO();
             newStatisticsDTO.setPersonId(i.getId());
             newStatisticsDTO.setPersonName(i.getName());
             //get all invoices according to the current persons identificationNumber
             List<InvoiceDTO> personsInvoices = invoiceService.getSellersByIdNum(i.getIdentificationNumber());
-            for (InvoiceDTO invoice: personsInvoices){
+            for (InvoiceDTO invoice : personsInvoices) {
                 //add revenue from gotten invoices
-                newStatisticsDTO.setRevenue(newStatisticsDTO.getRevenue()+invoice.getPrice());
+                newStatisticsDTO.setRevenue(newStatisticsDTO.getRevenue() + invoice.getPrice());
             }
             //add new constructed DTO to the list
             personStatisticsDTOS.add(newStatisticsDTO);

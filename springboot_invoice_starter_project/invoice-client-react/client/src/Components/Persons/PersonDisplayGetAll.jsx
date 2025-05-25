@@ -29,7 +29,7 @@ const mainColumns = [
     { field: "bank", headerName: "bankCode", minWidth: 130 },
     { field: "iban", headerName: "iban", minWidth: 130 },
     { field: "telephone", headerName: "telephone", minWidth: 180 },
-    { field: "E", headerName: "mail", minWidth: 130 },
+    { field: "Email", headerName: "mail", minWidth: 130 },
 ];
 const secondaryColumns = [
     { field: "street", headerName: "street", minWidth: 260 },
@@ -38,9 +38,6 @@ const secondaryColumns = [
     { field: "country", headerName: "country", minWidth: 130 },
 
 ];
-const terciaryColumns = [
-    { field: "note", headerName: "note", minWidth: 130 }
-];
 
 //colapsible table to reduce the table overall size
 //contains buttons that have states for the underpage State 
@@ -48,16 +45,12 @@ function Row(props) {
     const { id, street, zip, city, country, note, setSelectedId, setUnderPageState } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
     const handleButtonClick = (e) => {
-        setSelectedId(id);// Use the `id` from props to update the selected ID
+        setSelectedId(id);// Use the 'id' from props to update the selected ID
         switch (e.target.name) {
             case "edit":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[2].value)
                 setUnderPageState(PeopleActionsState[2])
                 break
             case "details":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[1].value)
                 setUnderPageState(PeopleActionsState[1])
                 break
             default:
@@ -199,7 +192,6 @@ function GetPersons(props) {
             const data = await apiGet("http://localhost:8080/api/persons")
             console.log("sent data" + data)
             setPersons(data)
-            console.log(persons)
         }
         setLoading(false)
         if (persons.length == 0) {

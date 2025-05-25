@@ -16,11 +16,17 @@ public class StatisticsController {
     @Autowired
     private StatisticsServiceImpl statisticsService;
 
+    /*
+    * calls service layer to fetch all time statistics
+    * @return InvoiceStatisticsDTO*/
     @GetMapping("/invoices/statistics")
     private InvoiceStatisticsDTO getAllTimmeStats(){
         return statisticsService.getInvoiceAllTimeStatistics();
     }
 
+    /*
+     * calls service layer to fetch statistics for each person
+     * @return list<PersonStatisticsDTO>*/
     @GetMapping("/persons/statistics")
     private List<PersonStatisticsDTO> getPersonsStats(){
         return statisticsService.getPersonsStatistics();

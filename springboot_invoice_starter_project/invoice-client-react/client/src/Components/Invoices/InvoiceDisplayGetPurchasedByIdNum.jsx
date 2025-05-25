@@ -199,14 +199,17 @@ function Row(props) {
     );
 }
 
-//fetches all persons from the database and lists them out accordingly 
+//fetches invoices that are bought or sold depending on the idNum 
 function GetPurchasedInvoicesByIdNum(props) {
     const { setSelectedId, setUnderPageState, idNum, isPurchases } = props
     const [page, setPage] = useState(0);
+    const urlEnd = isPurchases ? 'purchases' : 'sales';
+    
+
+    /*
+    constants and handlers for pagination*/
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [open, setOpen] = useState(false)
-    const urlEnd = isPurchases ? 'purchases' : 'sales';
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -227,7 +230,7 @@ function GetPurchasedInvoicesByIdNum(props) {
         setInvoices([])
         setLoading(true)
     }
-    //fetches all user data
+    //fetches all relevant invoice data
     useEffect(() => {
         if (invoices.length === 0) {
             async function fetchInvoices() {

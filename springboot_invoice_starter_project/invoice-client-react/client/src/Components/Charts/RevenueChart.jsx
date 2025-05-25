@@ -3,6 +3,8 @@ import { BarChart, barElementClasses } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { apiGet } from '../../Utils/apiGet';
 
+
+//chart for displaying data of a list of single persons
 const colors = ['#EC407A','#006BD6',  '#CF4564'];
 
 export default function RevenueChart() {

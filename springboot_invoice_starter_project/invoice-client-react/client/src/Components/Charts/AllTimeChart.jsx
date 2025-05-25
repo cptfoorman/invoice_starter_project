@@ -3,6 +3,8 @@ import { BarChart, barElementClasses } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { apiGet } from '../../Utils/apiGet';
 
+//chart for displaying all time data from the api response
+
 const colors = ['#EC407A','#006BD6',  '#CF4564'];
 
 export default function AllTimeChart() {

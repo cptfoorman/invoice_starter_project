@@ -43,6 +43,10 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    /*
+    * adds a user to the database
+    * @params PersonDTO
+    * @return saved PersonDTO*/
     @Override
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
@@ -51,6 +55,9 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(entity);
     }
 
+    /*
+     * removes a person by setting it to hiddeN
+     * @return HttpStatus NO_CONTENT on success or NOT_FOUND*/
     @Override
     public HttpStatus removePerson(long personId) {
         try {
@@ -65,6 +72,9 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    /*
+     * ¨returns all users that are not hidden
+     * @return List<PersonDTO>*/
     @Override
     public List<PersonDTO> getAll() {
         return personRepository.findByHidden(false)
@@ -73,12 +83,22 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * gets a specific person according to the id
+     * @params id = persons id
+     * @return PersonDTO*/
     @Override
     public PersonDTO getPerson(long id) {
         PersonEntity person = fetchPersonById(id);
         return personMapper.toDTO(person);
     }
 
+    /*
+     * sets previous person to hidden and creates a new one
+     * @params id = persons previous id
+     * @params PersonDTO
+     * @return PersonDTO
+     * @throws EntityNotFoundExeption*/
     @Override
     public PersonDTO editPerson(long id, PersonDTO personDTO) {
         if (!personRepository.existsById(id)) {

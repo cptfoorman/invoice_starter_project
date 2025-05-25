@@ -29,12 +29,19 @@ public class InvoiceServiceImpl implements InvoiceService{
     private InvoiceMapper invoiceMapper;
 
 
-    //nepouzita entita jako v person protoze invoice bude mit vazbu na persons
+    /*
+    * fetches a specific invoice according to the id given
+    * @params id = Invoice id
+    * @return InvoiceDTO*/
     @Override
     public InvoiceDTO getInvoice(long id) {
         return invoiceMapper.toDTO(invoiceRepository.getReferenceById(id));
     }
 
+    /*
+    * fetches all invoices from the database according to filters
+    * @params InvoiceFilter
+    * @return List<InvoiceDTO>*/
     @Override
     public List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter) {
         InvoiceSpecification invoiceSpecification = new InvoiceSpecification(invoiceFilter);
@@ -44,6 +51,10 @@ public class InvoiceServiceImpl implements InvoiceService{
                 .collect(Collectors.toList());
     }
 
+    /*
+    * deletes an invoice according to the id
+    * @params id = Invoice id
+    * @return HttpStatus NO_CONTENT on success or NOT_FOUND*/
     @Override
     public HttpStatus removeInvoice(long id) {
         try{
@@ -56,6 +67,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 
     }
 
+    /*
+    * adds invoice
+    * @params InvoiceDTO
+    * @return saved InvoiceDTO*/
     @Override
     public InvoiceDTO addInvoice(InvoiceDTO invoiceDTO) {
         InvoiceEntity newInvoiceEntity = invoiceMapper.toEntity(invoiceDTO);
@@ -63,10 +78,17 @@ public class InvoiceServiceImpl implements InvoiceService{
         return invoiceMapper.toDTO(newInvoiceEntity);
     }
 
+
+    /*
+     * edits an invoice
+     * @params id = Invoice Id
+     * @params InvoiceDTO
+     * @return newly saved InvoiceDTO
+     * @throws EntityNotFoundExeption*/
     @Override
     public InvoiceDTO editInvoice(long id, InvoiceDTO invoiceDTO) {
         if (!invoiceRepository.existsById(id)) {
-            throw new EntityNotFoundException("Person with id " + id + " wasn't found in the database.");
+            throw new EntityNotFoundException("Invoice with id " + id + " wasn't found in the database.");
         }
         InvoiceEntity entity = invoiceMapper.toEntity(invoiceDTO);
         entity.setId(id);
@@ -74,15 +96,24 @@ public class InvoiceServiceImpl implements InvoiceService{
         return invoiceMapper.toDTO(saved);
     }
 
+    /*
+     * fetches buyer invoices by identification number
+     * @params String identificationNumber = identification number of the selected person
+     * @return List<InvoiceDTO>*/
     @Override
     public List<InvoiceDTO> getBuyersByIdNum(String identificationNumber) {
         InvoiceBuyerSellerFilter invoiceFilter = new InvoiceBuyerSellerFilter(true, identificationNumber);
-                InvoiceBuyerSellerSpecification invoiceSpecification = new InvoiceBuyerSellerSpecification(invoiceFilter);
+        InvoiceBuyerSellerSpecification invoiceSpecification = new InvoiceBuyerSellerSpecification(invoiceFilter);
         return invoiceRepository.findAll(invoiceSpecification)
                 .stream()
                 .map(i -> invoiceMapper.toDTO(i))
                 .collect(Collectors.toList());
     }
+
+    /*
+     * fetches seller invoices by identification number
+     * @params String identificationNumber = identification number of the selected person
+     * @return List<InvoiceDTO>*/
     @Override
     public List<InvoiceDTO> getSellersByIdNum(String identificationNumber) {
         InvoiceBuyerSellerFilter invoiceFilter = new InvoiceBuyerSellerFilter(false, identificationNumber);

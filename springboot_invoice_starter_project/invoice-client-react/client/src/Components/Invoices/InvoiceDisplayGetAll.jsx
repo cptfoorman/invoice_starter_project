@@ -66,24 +66,23 @@ const sellerColumns = [
 //colapsible table to reduce the tables overall size
 //contains buttons that have states for the underpage State 
 function Row(props) {
-    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState, handleReload } = props; // Destructure props for clarity
+    const { dueDate, buyerId, buyerIdNum, sellerId, sellerIdNum, buyerName, sellerName, setSelectedId, note, id, setUnderPageState } = props; // Destructure props for clarity
     const [open, setOpen] = React.useState(false);
+
+    /*
+    button handles for clicking details on buyer or seller*/
     const handleBuyerButtonClick = (e) => {
-        setSelectedId(buyerId);// Use the `id` from props to update the selected ID
+        setSelectedId(buyerId);// Use the 'id' from props to update the selected ID
         switch (e.target.name) {
             case "details":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[1].value)
                 setUnderPageState(PeopleActionsState[1])
                 break
         };
     };
     const handleSellerButtonClick = (e) => {
-        setSelectedId(sellerId);// Use the `id` from props to update the selected ID
+        setSelectedId(sellerId);// Use the 'id' from props to update the selected ID
         switch (e.target.name) {
             case "details":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[1].value)
                 setUnderPageState(PeopleActionsState[1])
                 break
         };
@@ -92,13 +91,9 @@ function Row(props) {
         setSelectedId(id);// Use the `id` from props to update the selected ID
         switch (e.target.name) {
             case "edit":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[3].value)
                 setUnderPageState(PeopleActionsState[3])
                 break
             case "details":
-                console.log(e.target.name)
-                console.log(PeopleActionsState[1].value)
                 setUnderPageState(PeopleActionsState[1])
                 break
             default:
@@ -148,8 +143,9 @@ function Row(props) {
                                         </TableCell>
                                         <TableCell>{dateStringFormatter(dueDate)}</TableCell>
                                         <TableCell>
+                                            {/* Actions Section */}
                                             <Stack>
-                                                <InvoiceDeleteButton id={id} handleReload={handleReload}></InvoiceDeleteButton>
+                                                <InvoiceDeleteButton id={id}></InvoiceDeleteButton>
                                                 <Button onClick={handleButtonClick} name="edit" color="secondary" variant="contained">
                                                     Edit
                                                 </Button>
@@ -233,6 +229,8 @@ function Row(props) {
 //policies are editable on the user since i have the userid accessible
 function GetInvoices(props) {
     const { setSelectedId, setUnderPageState } = props
+    const [invoices, setInvoices] = useState([])
+    const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -246,8 +244,7 @@ function GetInvoices(props) {
     };
 
 
-    const [invoices, setInvoices] = useState([])
-    const [loading, setLoading] = useState(true)
+
 
 
     //button for reloading users since fetching data is async it would fetch infinitely otherwise
@@ -262,7 +259,6 @@ function GetInvoices(props) {
             setLoading(true);
             try {
                 const data = await apiGet("http://localhost:8080/api/invoice/getAll");
-                console.log("sent data", data);
                 setInvoices(data);
             } catch (error) {
                 console.error("Error fetching invoices:", error);
@@ -276,7 +272,7 @@ function GetInvoices(props) {
         }
     }, [invoices]);
     //staggered page state for ensuring that theres data to map by the elements in the default return
-    if (loading == true) {
+    if (loading) {
         return (
             <div>
                 <Paper elevation={3}>
@@ -341,7 +337,7 @@ function GetInvoices(props) {
                                                                         sellerName={invoice.seller.name}
                                                                         setSelectedId={setSelectedId}
                                                                         setUnderPageState={setUnderPageState}
-                                                                        handleReload={handleReload}></Row>
+                                                                    ></Row>
                                                                     <TableCell>
                                                                         {dateStringFormatter(invoice.issued)}
                                                                     </TableCell>
