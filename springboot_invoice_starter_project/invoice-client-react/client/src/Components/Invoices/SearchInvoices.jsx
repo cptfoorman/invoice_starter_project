@@ -7,12 +7,7 @@ import { apiGet } from "../../Utils/apiGet";
 import SearchIcon from '@mui/icons-material/Search';
 import GetFilteredInvoices from "./InvoiceDisplayFiltered";
 
-/*buyerID
-sellerID
-product
-minPrice
-maxPrice
-limit */
+
 export default function SearchInvoice(props) {
     const { setSelectedId,setPageState, setUnderPageState } = props
     const [buyerId, setBuyerId] = React.useState("");

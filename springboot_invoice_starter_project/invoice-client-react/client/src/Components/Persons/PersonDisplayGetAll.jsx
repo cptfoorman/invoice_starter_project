@@ -162,6 +162,7 @@ function GetPersons(props) {
     const { setSelectedId, setUnderPageState } = props
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [isNotFound, setIsNotfound] = useState(false)
 
 
 
